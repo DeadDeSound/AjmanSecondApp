@@ -19,8 +19,8 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public AppBarLayout appBar;
-    public Toolbar toolbar;
+    public static AppBarLayout appBar;
+    public static Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
