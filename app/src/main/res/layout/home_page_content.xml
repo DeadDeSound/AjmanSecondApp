@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/MainScreenTopBar"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/home_page_Main_Linear_margin_Right"
+        android:layout_marginLeft="@dimen/home_page_Main_Linear_margin_Left"
+        android:layout_marginRight="@dimen/home_page_Main_Linear_margin_Right"
+        android:layout_marginStart="@dimen/home_page_Main_Linear_margin_Left"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/Home_Page_relative_1"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginEnd="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_marginRight="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_weight="1"
+                android:background="@drawable/color1">
+
+
+                <ImageView
+                    android:id="@+id/Home_block_im_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_Page_events_icon"
+                    android:src="@drawable/events" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_1"
+                    android:layout_toRightOf="@+id/Home_block_im_1"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_textSize" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/home_page_RightBlock_marginStart"
+                android:layout_marginStart="@dimen/home_page_RightBlock_marginStart"
+                android:layout_weight="1"
+                android:background="@drawable/color2"
+
+                >
+
+                <ImageView
+                    android:id="@+id/Home_block_im_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_page_block_report_icon"
+                    android:src="@drawable/report" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_2"
+                    android:layout_toRightOf="@+id/Home_block_im_2"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginEnd="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_marginRight="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_weight="1"
+                android:background="@drawable/color3">
+
+
+                <ImageView
+                    android:id="@+id/Home_block_im_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_Page_events_icon"
+                    android:src="@drawable/print" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_3"
+                    android:layout_toRightOf="@+id/Home_block_im_3"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_3"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_textSize" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/home_page_RightBlock_marginStart"
+                android:layout_marginStart="@dimen/home_page_RightBlock_marginStart"
+                android:layout_weight="1"
+                android:background="@drawable/color4"
+
+                >
+
+                <ImageView
+                    android:id="@+id/Home_block_im_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_page_block_report_icon"
+                    android:src="@drawable/events" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_4"
+                    android:layout_toRightOf="@+id/Home_block_im_4"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginEnd="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_marginRight="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_weight="1"
+                android:background="@drawable/color5">
+
+
+                <ImageView
+                    android:id="@+id/Home_block_im_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_Page_events_icon"
+                    android:src="@drawable/print" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_5"
+                    android:layout_toRightOf="@+id/Home_block_im_5"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_5"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_textSize" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/home_page_RightBlock_marginStart"
+                android:layout_marginStart="@dimen/home_page_RightBlock_marginStart"
+                android:layout_weight="1"
+                android:background="@drawable/color6"
+
+                >
+
+                <ImageView
+                    android:id="@+id/Home_block_im_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_page_block_report_icon"
+                    android:src="@drawable/events" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_6"
+                    android:layout_toRightOf="@+id/Home_block_im_6"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_6"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginEnd="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_marginRight="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_weight="1"
+                android:background="@drawable/color7">
+
+
+                <ImageView
+                    android:id="@+id/Home_block_im_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_Page_events_icon"
+                    android:src="@drawable/print" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_7"
+                    android:layout_toRightOf="@+id/Home_block_im_7"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_7"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_textSize" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/home_page_RightBlock_marginStart"
+                android:layout_marginStart="@dimen/home_page_RightBlock_marginStart"
+                android:layout_weight="1"
+                android:background="@drawable/color8"
+
+                >
+
+                <ImageView
+                    android:id="@+id/Home_block_im_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_page_block_report_icon"
+                    android:src="@drawable/events" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_8"
+                    android:layout_toRightOf="@+id/Home_block_im_8"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_8"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginEnd="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_marginRight="@dimen/home_page_LeftBlock_marginEnd"
+                android:layout_weight="1"
+                android:background="@drawable/color9">
+
+
+                <ImageView
+                    android:id="@+id/Home_block_im_9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_Page_events_icon"
+                    android:src="@drawable/print" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_9"
+                    android:layout_toRightOf="@+id/Home_block_im_9"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_9"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_textSize" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/home_page_RightBlock_marginStart"
+                android:layout_marginStart="@dimen/home_page_RightBlock_marginStart"
+                android:layout_weight="1"
+                android:background="@drawable/color10"
+
+                >
+
+                <ImageView
+                    android:id="@+id/Home_block_im_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/home_page_block_report_icon"
+                    android:src="@drawable/events" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_page_num_marginStart"
+                    android:layout_marginStart="@dimen/home_page_num_marginStart"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/Home_block_im_10"
+                    android:layout_toRightOf="@+id/Home_block_im_10"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@string/home_page_block_main_num_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/home_page_block_main_num_txtSize"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Home_block_im_10"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/home_page_block_main_text_value_1"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</ScrollView>
