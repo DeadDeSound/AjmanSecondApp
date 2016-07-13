@@ -31,7 +31,5 @@
             android:padding="10dp"
             android:src="@drawable/menu" />
     </RelativeLayout>
-    <include layout="@layout/home_page_content"
-
-        />
+    <!--<include layout="@layout/home_page_content"/>-->
 </RelativeLayout>

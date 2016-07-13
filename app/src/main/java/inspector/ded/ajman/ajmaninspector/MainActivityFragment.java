@@ -8,9 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -19,7 +17,7 @@ public class MainActivityFragment extends Fragment {
 
 
     RelativeLayout Home_Page_relative_1;
-    SecondFragmnet fragment2  ;
+    SecondFragment fragment2  ;
 
     public MainActivityFragment() {
     }
@@ -36,7 +34,7 @@ public class MainActivityFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Home_Page_relative_1 = (RelativeLayout) view.findViewById(R.id.Home_Page_relative_1);
-        fragment2 = new SecondFragmnet();
+        fragment2 = new SecondFragment();
 
         Home_Page_relative_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +42,8 @@ public class MainActivityFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.fragment, fragment2);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
             }
         });
 

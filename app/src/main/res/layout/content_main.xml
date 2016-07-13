@@ -9,9 +9,9 @@
         android:name="inspector.ded.ajman.ajmaninspector.MainActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/BottomBar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main"
+        android:layout_marginBottom="50dp"/>
 
 
     <RelativeLayout
