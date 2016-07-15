@@ -40,8 +40,8 @@ public class SecondFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        appBar = (AppBarLayout) getView().findViewById(R.id.app_bar);
+//        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+//        appBar = (AppBarLayout) getView().findViewById(R.id.app_bar);
 //        getActivity().setSupportActionBar(toolbar);
     }
 }

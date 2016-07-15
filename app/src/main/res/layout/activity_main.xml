@@ -1,31 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<WebView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/webView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </WebView>
+    tools:context=".MainActivity">
 
     <!--<include-->
-        <!--layout="@layout/app_bar_main"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
+    <!--layout="@layout/app_bar_main"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
+
+    <!--<WebView-->
+    <!--android:id="@+id/webView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--</WebView>-->
+
 
     <!--<android.support.design.widget.NavigationView-->
-        <!--android:id="@+id/nav_view"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--app:headerLayout="@layout/nav_header_main2"-->
-        <!--app:menu="@menu/activity_main_drawer" />-->
+    <!--android:id="@+id/nav_view"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="right"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--app:headerLayout="@layout/nav_header_main2"-->
+    <!--app:menu="@menu/activity_main_drawer" />-->
 
-</LinearLayout>
+</WebView>
