@@ -1,6 +1,8 @@
 package inspector.ded.ajman.ajmaninspector;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,7 +14,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DecorToolbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -25,12 +29,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
     public static AppBarLayout appBar;
     public static Toolbar toolbar;
-    private WebView mWebView;
+    public static WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +83,12 @@ public class MainActivity extends ActionBarActivity {
 //        mWebView.getSettings().setBuiltInZoomControls(true);
 //        mWebView.getSettings().setUseWideViewPort(true);
         final Activity MyActivity = this;
-        mWebView.setWebChromeClient(new WebChromeClient()
-        {
-            public void onProgressChanged(WebView view, int progress)
-            {
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
                 MyActivity.setTitle("Loading...");
                 MyActivity.setProgress(progress * 100);
 
-                if(progress == 100)
+                if (progress == 100)
                     MyActivity.setTitle(R.string.app_name);
             }
         });
@@ -98,8 +101,8 @@ public class MainActivity extends ActionBarActivity {
 
 //            handler.proceed("akarem", "Abc12345");
             handler.proceed(PreferenceManager
-                    .getDefaultSharedPreferences(getBaseContext())
-                    .getString(getString(R.string.pref_username_key), ""),
+                            .getDefaultSharedPreferences(getBaseContext())
+                            .getString(getString(R.string.pref_username_key), ""),
 
                     PreferenceManager
                             .getDefaultSharedPreferences(getBaseContext())
@@ -119,6 +122,13 @@ public class MainActivity extends ActionBarActivity {
                         finish();
                     }
                     return true;
+                case KeyEvent.KEYCODE_MENU:
+//                    startActivity(new Intent(this, SettingsActivity.class));
+                    FireMissilesDialogFragment dialog = new FireMissilesDialogFragment();
+                    dialog.show(getFragmentManager(), "NoticeDialogFragment");
+                    return true;
+
+
             }
 
         }
@@ -145,7 +155,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the Home/Up butt  on, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -182,4 +192,6 @@ public class MainActivity extends ActionBarActivity {
 //        drawer.closeDrawer(GravityCompat.START);
 //        return true;
 //    }
+
+
 }

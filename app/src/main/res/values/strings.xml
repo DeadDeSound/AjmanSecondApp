@@ -22,8 +22,12 @@
     <string name="pref_password_key">pref_pass</string>
     <string name="pref_url_key">pref_url</string>
 
-    <string name="pref_username_default">akarem</string>
+    <string name="pref_username_default">inspector1</string>
     <string name="pref_password_default">Abc12345</string>
-    <string name="pref_url_default">http://197.50.62.26:6060/</string>
+    <string name="pref_url_default">http://197.50.62.27:4040/Mobiletest/</string>
+    <array name="setting">
+        <item>Setting</item>
+        <item>Refresh</item>
+    </array>
 
 </resources>
