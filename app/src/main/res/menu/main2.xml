@@ -2,8 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/secure_connect_scan"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Secure Connect"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/insecure_connect_scan"
+        android:orderInCategory="100"
+        android:title="inSecure Connect"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/discoverable"
+        android:orderInCategory="100"
+        android:title="Discoverable"
         app:showAsAction="never" />
 </menu>
