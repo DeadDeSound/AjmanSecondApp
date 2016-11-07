@@ -56,9 +56,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-
-
 
     //    public static AppBarLayout appBar;
 //    public static Toolbar toolbar;
@@ -108,9 +105,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT >= 23){ // Api >= 23 dangerous permission method
-            isPermissionGranted(); //need layout "would be recommended"
-        }
         setContentView(R.layout.activity_main);
        //        startActivity(new Intent(this, ShowWebView.class));
         //instance for Arabic under onCreate
@@ -161,36 +155,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     protected void onRestoreInstanceState(Bundle savedInstanceState) {   // replaced in onCreate
         super.onRestoreInstanceState(savedInstanceState);
         mWebView.restoreState(savedInstanceState);
-    }
-
-    public void isPermissionGranted(){  // Permission For Api >= 23 " necessary "
-        boolean hasPermission = (ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
-                    REQUEST_ID_MULTIPLE_PERMISSIONS);
-        }
-
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
-            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    //reload my activity with permission granted or use the features what required the permission
-                } else
-                {
-                    Toast.makeText(this, "Please consider granting Ajman these permissions", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
     }
 
     public void initWebView() {
@@ -562,7 +526,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
 
 //    @Override
-//    protected void onUserLeaveHint() {  // Option you user secured button - not recommended
+//    protected void onUserLeaveHint() {  // Use secured button - not recommended
 //        super.onUserLeaveHint();
 //        SettingAction();
 //    }
