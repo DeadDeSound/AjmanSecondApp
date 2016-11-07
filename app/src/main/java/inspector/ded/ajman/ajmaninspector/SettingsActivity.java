@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener{
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

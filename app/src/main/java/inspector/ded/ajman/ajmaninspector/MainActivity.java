@@ -1,38 +1,33 @@
 package inspector.ded.ajman.ajmaninspector;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.media.MediaScannerConnection;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.HttpAuthHandler;
 import android.webkit.ValueCallback;
@@ -45,20 +40,29 @@ import android.widget.Toast;
 
 import com.ganesh.iarabic.arabic864;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import static inspector.ded.ajman.ajmaninspector.Constants.*;
+import static inspector.ded.ajman.ajmaninspector.Constants.MESSAGE_DEVICE_NAME;
+import static inspector.ded.ajman.ajmaninspector.Constants.MESSAGE_STATE_CHANGE;
+import static inspector.ded.ajman.ajmaninspector.Constants.MESSAGE_TOAST;
+import static inspector.ded.ajman.ajmaninspector.Constants.MESSAGE_WRITE;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+
+
+
     //    public static AppBarLayout appBar;
 //    public static Toolbar toolbar;
     public static WebView mWebView;
+
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -79,6 +83,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     private static final int FILECHOOSER_RESULTCODE = 2888;
     private ValueCallback<Uri> mUploadMessage;
+    private ValueCallback<Uri[]> mUMA;
+    private String mCM;
     private Uri mCapturedImageURI = null;
 
     byte FONT_TYPE;
@@ -97,15 +103,22 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     public arabic864 araconvert = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT >= 23){ // Api >= 23 dangerous permission method
+            isPermissionGranted(); //need layout "would be recommended"
+        }
         setContentView(R.layout.activity_main);
-//        startActivity(new Intent(this, ShowWebView.class));
+       //        startActivity(new Intent(this, ShowWebView.class));
         //instance for Arabic under onCreate
         araconvert = new arabic864();
+        mWebView = (WebView) findViewById(R.id.webView);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState != null) {
+            mWebView.restoreState(savedInstanceState);
+        }else {
             initWebView();
         }
 
@@ -134,7 +147,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        initWebView();
     }
 
     @Override
@@ -143,15 +155,45 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         mWebView.saveState(outState);
     }
 
+
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {   // replaced in onCreate
         super.onRestoreInstanceState(savedInstanceState);
         mWebView.restoreState(savedInstanceState);
     }
 
+    public void isPermissionGranted(){  // Permission For Api >= 23 " necessary "
+        boolean hasPermission = (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                    REQUEST_ID_MULTIPLE_PERMISSIONS);
+        }
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode)
+        {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    //reload my activity with permission granted or use the features what required the permission
+                } else
+                {
+                    Toast.makeText(this, "Please consider granting Ajman these permissions", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+    }
+
     public void initWebView() {
         isLoaded = false;
-        mWebView = (WebView) findViewById(R.id.webView);
 
         // Javascript inabled on webview
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -317,6 +359,54 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                         MainActivity.FILECHOOSER_RESULTCODE);
 
             }
+            //For Android 5.0+
+            public boolean onShowFileChooser(
+                    WebView webView, ValueCallback<Uri[]> filePathCallback,
+                    WebChromeClient.FileChooserParams fileChooserParams){
+                if(mUMA != null){
+                    mUMA.onReceiveValue(null);
+                }
+                mUMA = filePathCallback;
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(takePictureIntent.resolveActivity(MainActivity.this.getPackageManager()) != null){
+                    File photoFile = null;
+                    try{
+                        photoFile = createImageFile();
+                        takePictureIntent.putExtra("PhotoPath", mCM);
+                    }catch(IOException ex){
+                        Log.e(TAG, "Image file creation failed", ex);
+                    }
+                    if(photoFile != null){
+                        mCM = "file:" + photoFile.getAbsolutePath();
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                    }else{
+                        takePictureIntent = null;
+                    }
+                }
+                Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                contentSelectionIntent.setType("image/*");
+                Intent[] intentArray;
+                if(takePictureIntent != null){
+                    intentArray = new Intent[]{takePictureIntent};
+                }else{
+                    intentArray = new Intent[0];
+                }
+
+                Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
+                chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
+                chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+                startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
+                return true;
+            }
+
+            private File createImageFile() throws IOException{
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "img_"+timeStamp+"_";
+                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                return File.createTempFile(imageFileName,".jpg",storageDir);
+            }
 
 
             // The webPage has 2 filechoosers and will send a
@@ -470,26 +560,49 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {   //For Hardware Buttons
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
-                case KeyEvent.KEYCODE_BACK:
-                    if (mWebView.canGoBack()) {
-                        mWebView.goBack();
-                    } else {
-                        finish();
-                    }
-                    return true;
                 case KeyEvent.KEYCODE_MENU:
-//                    startActivity(new Intent(this, SettingsActivity.class));
-                    FireMissilesDialogFragment dialog = new FireMissilesDialogFragment();
-                    dialog.show(getFragmentManager(), "NoticeDialogFragment");
+                   SettingAction();
                     return true;
             }
 
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {   //For Software Buttons " Huawei "
+        if (event.getAction() == KeyEvent.ACTION_DOWN){
+            switch (keyCode){
+                case KeyEvent.KEYCODE_BACK:
+                    SettingAction();
+                    return true;
+//                case KeyEvent.KEYCODE_APP_SWITCH:
+//                    SettingAction();
+//                    return true;
+            }
+        }
+        return super.onKeyLongPress(keyCode, event);
+    }
+
+
+//    @Override
+//    protected void onUserLeaveHint() {  // Option you user secured button - not recommended
+//        super.onUserLeaveHint();
+//        SettingAction();
+//    }
+
+
+    private void SettingAction(){
+    try{
+        FireMissilesDialogFragment dialog = new FireMissilesDialogFragment();
+        dialog.show(getFragmentManager(), "NoticeDialogFragment");
+    }catch(Exception E) {
+        E.printStackTrace ();
+    }
+}
 
     // The Handler that gets information back from the BluetoothService
     private final Handler mHandlerBT = new Handler() {
@@ -498,7 +611,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_STATE_CHANGE:
-                    if (DEBUG) Log.i(LOG_TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+                    if (DEBUG) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                     switch (msg.arg1) {
                         case BluetoothPrintService.STATE_CONNECTED:
                             Toast.makeText(MainActivity.this, "Connected", Toast.LENGTH_SHORT).show();
@@ -612,35 +725,38 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == FILECHOOSER_RESULTCODE) {
-            if (null == mUploadMessage) return;
-            Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
-            mUploadMessage.onReceiveValue(result);
-            mUploadMessage = null;
-        }
-
-        if (requestCode == FILECHOOSER_RESULTCODE) {
-
-            if (null == this.mUploadMessage) {
-                return;
-            }
-            Uri result = null;
-            try {
-                if (resultCode != RESULT_OK) {
-                    result = null;
-                } else {
-                    // retrieve from the private variable if the intent is null
-                    result = data == null ? mCapturedImageURI : data.getData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(Build.VERSION.SDK_INT >= 21){
+            Uri[] results = null;
+            //Check if response is positive
+            if(resultCode== Activity.RESULT_OK){
+                if(requestCode == FILECHOOSER_RESULTCODE){
+                    if(null == mUMA){
+                        return;
+                    }
+                    if(intent == null){
+                        //Capture Photo if no image available
+                        if(mCM != null){
+                            results = new Uri[]{Uri.parse(mCM)};
+                        }
+                    }else{
+                        String dataString = intent.getDataString();
+                        if(dataString != null){
+                            results = new Uri[]{Uri.parse(dataString)};
+                        }
+                    }
                 }
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "activity :" + e, Toast.LENGTH_LONG).show();
             }
-            mUploadMessage.onReceiveValue(result);
-            mUploadMessage = null;
-
+            mUMA.onReceiveValue(results);
+            mUMA = null;
+        }else{
+            if(requestCode == FILECHOOSER_RESULTCODE){
+                if(null == mUploadMessage) return;
+                Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
+                mUploadMessage.onReceiveValue(result);
+                mUploadMessage = null;
+            }
         }
 
         if (requestCode == DEVICE_LIST) {
@@ -655,8 +771,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 //                            .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS));
 //                    startActivity(in);
                     // Get the device MAC address
-                    if (data != null) {
-                        String address = data.getExtras()
+                    if (intent != null) {
+                        String address = intent.getExtras()
                                 .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS);
                         // Get the BLuetoothDevice object
                         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
@@ -670,15 +786,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                 }
             }
         }
-//        try {
-//            btsocket = BTDeviceList.getSocket();
-//            if (btsocket != null) {
-//                print_bt();
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
     }
 
 
@@ -708,7 +816,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     // Open previous opened link from history on webview when back button pressed
 
-    @Override
+//    @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
 
@@ -721,6 +829,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
+            finish();
             // Let the system handle the back button
             super.onBackPressed();
         }

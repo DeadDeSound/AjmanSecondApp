@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AjmanDED_Inspector.iml" filepath="$PROJECT_DIR$/AjmanDED_Inspector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AjmanSecondApp.iml" filepath="$PROJECT_DIR$/AjmanSecondApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
