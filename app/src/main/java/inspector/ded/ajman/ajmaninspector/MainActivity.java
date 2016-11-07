@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.ConsoleMessage;
 import android.webkit.HttpAuthHandler;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -195,8 +196,12 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     public void initWebView() {
         isLoaded = false;
 
+        JavaScriptInterface jsInterface = new JavaScriptInterface(this);
+
         // Javascript inabled on webview
         mWebView.getSettings().setJavaScriptEnabled(true);
+
+        mWebView.addJavascriptInterface(jsInterface, "JSInterface");
 
         // Other webview options
         mWebView.getSettings().setLoadWithOverviewMode(true);
@@ -491,57 +496,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         alert.show();
     }
 
-
-//    private byte[] siteToImage() {
-//        mWebView.measure(View.MeasureSpec.makeMeasureSpec(
-//                View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-//                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//
-//        mWebView.setDrawingCacheEnabled(true);
-//        mWebView.buildDrawingCache();
-//        Bitmap b = Bitmap.createBitmap(mWebView.getMeasuredWidth(),
-//                mWebView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-//        Canvas c = new Canvas(b);
-//        Paint paint = new Paint();
-//        int iHeight = b.getHeight();
-//        c.drawBitmap(b, 0, iHeight, paint);
-//        mWebView.draw(c);
-//
-//        FileOutputStream fos;
-//        ByteArrayOutputStream stream = null;
-//        try {
-//            String path = Environment.getExternalStorageDirectory().toString();
-//            File dir = new File(path, "/AjmanDED/media/img/");
-//            if (!dir.isDirectory()) {
-//                dir.mkdirs();
-//            }
-//            String arquivo = "darf_" + System.currentTimeMillis() + ".jpg";
-//            File file = new File(dir, arquivo);
-//            fos = new FileOutputStream(file);
-//            String imagePath = file.getAbsolutePath();
-//            //scan the image so show up in album
-//            MediaScannerConnection.scanFile(this, new String[]{imagePath},
-//                    null, new MediaScannerConnection.OnScanCompletedListener() {
-//                        public void onScanCompleted(String path, Uri uri) {
-//
-//                        }
-//                    });
-//
-//            b.compress(Bitmap.CompressFormat.PNG, 50, fos);
-//            stream = new ByteArrayOutputStream();
-//            b.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-//
-//            fos.flush();
-//            fos.close();
-//            b.recycle();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        assert stream != null;
-//        return stream.toByteArray();
-//    }
-
     private class MyWebViewClient extends WebViewClient {
         @Override
         public void onReceivedHttpAuthRequest(WebView view,
@@ -556,6 +510,25 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                             .getDefaultSharedPreferences(getBaseContext())
                             .getString(getString(R.string.pref_password_key), getString(R.string.pref_password_default)));
 
+        }
+    }
+
+    public class JavaScriptInterface {
+        private Activity activity;
+
+        public JavaScriptInterface(Activity activiy) {
+            this.activity = activiy;
+        }
+
+        @JavascriptInterface
+        public void startPrint(String printText){
+            if (getConnectionState() == BluetoothPrintService.STATE_NONE) {
+                // Launch the DeviceListActivity to see devices and do scan
+                Intent serverIntent = new Intent(activity, BTDeviceList.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+            } else if (getConnectionState() == BluetoothPrintService.STATE_CONNECTED) {
+                mSerialService.write(araconvert.Convert(printText, true));
+            }
         }
     }
 
