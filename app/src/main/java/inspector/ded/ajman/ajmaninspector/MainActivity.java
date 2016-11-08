@@ -107,6 +107,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
        //        startActivity(new Intent(this, ShowWebView.class));
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //instance for Arabic under onCreate
         araconvert = new arabic864();
         mWebView = (WebView) findViewById(R.id.webView);
@@ -664,35 +666,36 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
-        if(Build.VERSION.SDK_INT >= 21){
-            Uri[] results = null;
-            //Check if response is positive
-            if(resultCode== Activity.RESULT_OK){
-                if(requestCode == FILECHOOSER_RESULTCODE){
-                    if(null == mUMA){
+        if(requestCode == FILECHOOSER_RESULTCODE) {
+            if (Build.VERSION.SDK_INT >= 21) {
+                Uri[] results = null;
+                //Check if response is positive
+                if (resultCode == Activity.RESULT_OK) {
+
+                    if (null == mUMA) {
                         return;
                     }
-                    if(intent == null){
+                    if (intent == null) {
                         //Capture Photo if no image available
-                        if(mCM != null){
+                        if (mCM != null) {
                             results = new Uri[]{Uri.parse(mCM)};
                         }
-                    }else{
+                    } else {
                         String dataString = intent.getDataString();
-                        if(dataString != null){
+                        if (dataString != null) {
                             results = new Uri[]{Uri.parse(dataString)};
                         }
                     }
                 }
-            }
-            mUMA.onReceiveValue(results);
-            mUMA = null;
-        }else{
-            if(requestCode == FILECHOOSER_RESULTCODE){
-                if(null == mUploadMessage) return;
-                Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
-                mUploadMessage.onReceiveValue(result);
-                mUploadMessage = null;
+                mUMA.onReceiveValue(results);
+                mUMA = null;
+            } else {
+                if (requestCode == FILECHOOSER_RESULTCODE) {
+                    if (null == mUploadMessage) return;
+                    Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
+                    mUploadMessage.onReceiveValue(result);
+                    mUploadMessage = null;
+                }
             }
         }
 
