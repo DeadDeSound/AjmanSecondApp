@@ -45,6 +45,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import static inspector.ded.ajman.ajmaninspector.Constants.MESSAGE_DEVICE_NAME;
@@ -57,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-
 
 
     //    public static AppBarLayout appBar;
@@ -108,18 +108,20 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT >= 23){ // Api >= 23 dangerous permission method
+        if (Build.VERSION.SDK_INT >= 23) { // Api >= 23 dangerous permission method
             isPermissionGranted(); //need layout "would be recommended"
         }
         setContentView(R.layout.activity_main);
-       //        startActivity(new Intent(this, ShowWebView.class));
+        //        startActivity(new Intent(this, ShowWebView.class));
         //instance for Arabic under onCreate
         araconvert = new arabic864();
         mWebView = (WebView) findViewById(R.id.webView);
 
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         if (savedInstanceState != null) {
             mWebView.restoreState(savedInstanceState);
-        }else {
+        } else {
             initWebView();
         }
 
@@ -163,12 +165,12 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         mWebView.restoreState(savedInstanceState);
     }
 
-    public void isPermissionGranted(){  // Permission For Api >= 23 " necessary "
+    public void isPermissionGranted() {  // Permission For Api >= 23 " necessary "
         boolean hasPermission = (ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermission) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                     REQUEST_ID_MULTIPLE_PERMISSIONS);
         }
 
@@ -178,14 +180,11 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //reload my activity with permission granted or use the features what required the permission
-                } else
-                {
+                } else {
                     Toast.makeText(this, "Please consider granting Ajman these permissions", Toast.LENGTH_LONG).show();
                 }
             }
@@ -364,27 +363,28 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                         MainActivity.FILECHOOSER_RESULTCODE);
 
             }
+
             //For Android 5.0+
             public boolean onShowFileChooser(
                     WebView webView, ValueCallback<Uri[]> filePathCallback,
-                    WebChromeClient.FileChooserParams fileChooserParams){
-                if(mUMA != null){
+                    WebChromeClient.FileChooserParams fileChooserParams) {
+                if (mUMA != null) {
                     mUMA.onReceiveValue(null);
                 }
                 mUMA = filePathCallback;
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(takePictureIntent.resolveActivity(MainActivity.this.getPackageManager()) != null){
+                if (takePictureIntent.resolveActivity(MainActivity.this.getPackageManager()) != null) {
                     File photoFile = null;
-                    try{
+                    try {
                         photoFile = createImageFile();
                         takePictureIntent.putExtra("PhotoPath", mCM);
-                    }catch(IOException ex){
+                    } catch (IOException ex) {
                         Log.e(TAG, "Image file creation failed", ex);
                     }
-                    if(photoFile != null){
+                    if (photoFile != null) {
                         mCM = "file:" + photoFile.getAbsolutePath();
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                    }else{
+                    } else {
                         takePictureIntent = null;
                     }
                 }
@@ -392,9 +392,9 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                 contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 contentSelectionIntent.setType("image/*");
                 Intent[] intentArray;
-                if(takePictureIntent != null){
+                if (takePictureIntent != null) {
                     intentArray = new Intent[]{takePictureIntent};
-                }else{
+                } else {
                     intentArray = new Intent[0];
                 }
 
@@ -406,11 +406,11 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                 return true;
             }
 
-            private File createImageFile() throws IOException{
+            private File createImageFile() throws IOException {
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "img_"+timeStamp+"_";
+                String imageFileName = "img_" + timeStamp + "_";
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                return File.createTempFile(imageFileName,".jpg",storageDir);
+                return File.createTempFile(imageFileName, ".jpg", storageDir);
             }
 
 
@@ -521,11 +521,16 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         }
 
         @JavascriptInterface
-        public void startPrint(String printText){
+        public void startPrint(String printText) {
             if (getConnectionState() == BluetoothPrintService.STATE_NONE) {
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent serverIntent = new Intent(activity, BTDeviceList.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                try {
+                    // Launch the DeviceListActivity to see devices and do scan
+                    Intent serverIntent = new Intent(activity, BTDeviceList.class);
+                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                    Toast.makeText(activity, "startActivityForResult", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(activity, "Error: " + Arrays.toString(e.getStackTrace()), Toast.LENGTH_SHORT).show();
+                }
             } else if (getConnectionState() == BluetoothPrintService.STATE_CONNECTED) {
                 mSerialService.write(araconvert.Convert(printText, true));
             }
@@ -537,7 +542,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_MENU:
-                   SettingAction();
+                    SettingAction();
                     return true;
             }
 
@@ -547,8 +552,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {   //For Software Buttons " Huawei "
-        if (event.getAction() == KeyEvent.ACTION_DOWN){
-            switch (keyCode){
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
                     SettingAction();
                     return true;
@@ -568,14 +573,14 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 //    }
 
 
-    private void SettingAction(){
-    try{
-        FireMissilesDialogFragment dialog = new FireMissilesDialogFragment();
-        dialog.show(getFragmentManager(), "NoticeDialogFragment");
-    }catch(Exception E) {
-        E.printStackTrace ();
+    private void SettingAction() {
+        try {
+            FireMissilesDialogFragment dialog = new FireMissilesDialogFragment();
+            dialog.show(getFragmentManager(), "NoticeDialogFragment");
+        } catch (Exception E) {
+            E.printStackTrace();
+        }
     }
-}
 
     // The Handler that gets information back from the BluetoothService
     private final Handler mHandlerBT = new Handler() {
@@ -698,67 +703,80 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if(Build.VERSION.SDK_INT >= 21){
-            Uri[] results = null;
-            //Check if response is positive
-            if(resultCode== Activity.RESULT_OK){
-                if(requestCode == FILECHOOSER_RESULTCODE){
-                    if(null == mUMA){
+        if (requestCode == FILECHOOSER_RESULTCODE) {
+            if (Build.VERSION.SDK_INT >= 21) {
+                Uri[] results = null;
+                //Check if response is positive
+                if (resultCode == Activity.RESULT_OK) {
+
+                    if (null == mUMA) {
                         return;
                     }
-                    if(intent == null){
+                    if (intent == null) {
                         //Capture Photo if no image available
-                        if(mCM != null){
+                        if (mCM != null) {
                             results = new Uri[]{Uri.parse(mCM)};
                         }
-                    }else{
+                    } else {
                         String dataString = intent.getDataString();
-                        if(dataString != null){
+                        if (dataString != null) {
                             results = new Uri[]{Uri.parse(dataString)};
                         }
                     }
                 }
-            }
-            mUMA.onReceiveValue(results);
-            mUMA = null;
-        }else{
-            if(requestCode == FILECHOOSER_RESULTCODE){
-                if(null == mUploadMessage) return;
+                mUMA.onReceiveValue(results);
+                mUMA = null;
+            } else {
+                if (null == mUploadMessage) return;
                 Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
                 mUploadMessage.onReceiveValue(result);
                 mUploadMessage = null;
             }
         }
 
-        if (requestCode == DEVICE_LIST) {
+        if (requestCode == REQUEST_CONNECT_DEVICE) {
+
+            // When DeviceListActivity returns with a device to connect
             if (resultCode == Activity.RESULT_OK) {
-//                connectDevice(data, false);
-                if (isLoaded) {
-//                    PrintActivity activity = new PrintActivity();
-//                    Intent in = new Intent(MainActivity.this, activity.getClass());
-////                    in.putExtra("data", siteToImage());
-//                    assert data != null;
-//                    in.putExtra("address", data.getExtras()
-//                            .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS));
-//                    startActivity(in);
-                    // Get the device MAC address
-                    if (intent != null) {
-                        String address = intent.getExtras()
-                                .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS);
-                        // Get the BLuetoothDevice object
-                        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-                        // Attempt to connect to the device
-                        mSerialService.connect(device);
-                    } else {
-                        Toast.makeText(MainActivity.this, "some error with device", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Page not Loaded yet please wait", Toast.LENGTH_SHORT).show();
-                }
+                // Get the device MAC address
+                String address = intent.getExtras()
+                        .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS);
+                // Get the BLuetoothDevice object
+                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+                // Attempt to connect to the device
+                mSerialService.connect(device);
             }
         }
+
+//        if (requestCode == DEVICE_LIST) {
+//            if (resultCode == Activity.RESULT_OK) {
+////                connectDevice(data, false);
+//                if (isLoaded) {
+////                    PrintActivity activity = new PrintActivity();
+////                    Intent in = new Intent(MainActivity.this, activity.getClass());
+//////                    in.putExtra("data", siteToImage());
+////                    assert data != null;
+////                    in.putExtra("address", data.getExtras()
+////                            .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS));
+////                    startActivity(in);
+//                    // Get the device MAC address
+//                    if (intent != null) {
+//                        String address = intent.getExtras()
+//                                .getString(BTDeviceList.EXTRA_DEVICE_ADDRESS);
+//                        // Get the BLuetoothDevice object
+//                        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+//                        // Attempt to connect to the device
+//                        mSerialService.connect(device);
+//                    } else {
+//                        Toast.makeText(MainActivity.this, "some error with device", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(MainActivity.this, "Page not Loaded yet please wait", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
 
     }
 
@@ -789,7 +807,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     // Open previous opened link from history on webview when back button pressed
 
-//    @Override
+    //    @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
 
